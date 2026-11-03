@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VYRTU OS · Lista de espera</title>
+<meta name="description" content="VYRTU OS: registra cada serie en segundos, incluso sin conexión, y mira cómo progresas. Apúntate a la beta.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="VYRTU OS · Es hora de entrenar.">
+<meta property="og:description" content="La app para registrar tus entrenos de fuerza. Apúntate a la beta.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000'/%3E%3Cpolygon fill='%23D2FF00' points='14,12 24,12 32,38 40,12 50,12 37,52 27,52'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<script>try{if(sessionStorage.getItem('vyrtu-wipe')){document.documentElement.classList.add('arrive');sessionStorage.removeItem('vyrtu-wipe')}}catch(e){}</script>
+<link rel="stylesheet" href="styles.css">
+<link rel="prefetch" href="progreso.html">
+<script src="i18n.js" defer></script>
+<script src="script.js" defer></script>
+</head>
+<body>
+<div class="orbs" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="spot" id="spot" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="v" viewBox="330 287 365 450"><polygon fill="#D2FF00" points="330,287 417,287 512,585 607,287 695,287 546,737 478,737"/></symbol>
+    <symbol id="chk" viewBox="0 0 24 24"><path d="M5 12.5 10 17 19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="db" viewBox="0 0 24 24"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="currentColor"/></symbol>
+    <symbol id="chart" viewBox="0 0 24 24"><path d="M5 20V12M12 20V5M19 20v-9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 21h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="trophy" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="wifi" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 20 0M5.5 12a10 10 0 0 1 13 0M9 15.5a5 5 0 0 1 6 0M12 19h.01M3 3l18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></symbol>
+    <symbol id="tt" viewBox="0 0 24 24"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.6 2.4 4.4 5 4.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<!-- Trasera del móvil, se reutiliza en los dos teléfonos -->
+<template id="backTpl">
+  <div class="face back" aria-hidden="true">
+    <div class="cam"><i></i><i></i><i></i></div>
+    <svg class="back-logo" viewBox="330 287 365 450"><use href="#v"/></svg>
+    <div class="back-name">VYRTU OS</div>
+  </div>
+</template>
+
+<div class="page">
+<header class="top">
+  <div class="wrap">
+    <div class="bar glass">
+      <a class="brand" href="#inicio" aria-label="VYRTU OS, inicio">
+        <span class="vmark"><svg aria-hidden="true"><use href="#v"/></svg></span>
+        <span>VYRTU <span class="lima">OS</span></span>
+      </a>
+      <nav class="nav-r" aria-label="Secciones">
+        <div class="lang" id="lang">
+          <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma / Language">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            <span id="langCur">ES</span>
+          </button>
+          <ul class="lang-menu glass" id="langMenu" hidden>
+            <li><button data-lang="es">Español</button></li>
+            <li><button data-lang="en">English</button></li>
+            <li><button data-lang="pt">Português</button></li>
+            <li><button data-lang="it">Italiano</button></li>
+          </ul>
+        </div>
+        <a data-i18n="nav.app" class="navlink" href="#app">La app</a>
+        <a class="navico" data-ig href="https://www.instagram.com/vyrtu_os/" target="_blank" rel="noopener" aria-label="Instagram de VYRTU"><svg aria-hidden="true"><use href="#ig"/></svg></a>
+        <a data-i18n="nav.road" class="navlink" href="progreso.html">Hoja de ruta</a>
+        <a data-i18n="nav.join" class="btn sm" href="#apuntarse">Apuntarme</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main id="inicio">
+  <!-- HERO -->
+  <div class="wrap hero">
+    <div class="hero-copy" id="heroCopy">
+      <span class="pill glass"><span class="dot"></span><span data-i18n="hero.pill" data-fx="scramble" data-delay="200">BETA CERRADA · VERANO 2027</span></span>
+      <h1><span data-i18n="hero.l1" data-fx="rise" style="--d:150ms">Tu fuerza.</span><br><span data-i18n="hero.l2" data-fx="rise" class="lima" style="--d:400ms">Tu progreso.</span><br><span data-i18n="hero.l3" data-fx="rise" class="outline" style="--d:650ms">Tu ritmo.</span></h1>
+      <p data-i18n="hero.lead" class="lead" data-fx="fade" style="--d:850ms">VYRTU OS es la app para registrar tus entrenos de fuerza. Apuntas cada serie en segundos, funciona sin cobertura y te enseña cómo progresas semana a semana.</p>
+      <div class="ctas" data-fx="fade" style="--d:1000ms">
+        <a class="btn" href="#apuntarse"><span data-i18n="cta">Apuntarme a la beta</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a data-i18n="hero.see" class="btn-ghost" href="#app">Ver la app</a>
+      </div>
+      <div class="stores" data-fx="fade" style="--d:1100ms">
+        <span class="store glass" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5v17l14-8.5z" fill="currentColor"/></svg><span><small data-i18n="store.soon">Próximamente en</small>Google Play</span></span>
+        <span class="store glass" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span><small data-i18n="store.soon">Próximamente en</small>App Store</span></span>
+      </div>
+      <p data-i18n="hero.small" class="small" data-fx="fade" style="--d:1200ms">Gratis. Hecho por y para <span class="lima">vyrtuosos</span>.</p>
+    </div>
+
+    <div class="stage3d" data-fx="fade" style="--d:250ms">
+      <div class="rig" id="heroRig">
+        <div class="dev" data-back role="img" aria-label="Pantalla de inicio de VYRTU OS con el plan de hoy y el progreso de la semana">
+          <div class="face front">
+            <div class="scr" aria-hidden="true">
+              <div class="island"></div>
+              <div class="sb"><span>9:41</span><i></i></div>
+              <div class="a-head">
+                <span class="a-logo">Vyrtu <span class="lima">OS</span></span>
+                <span class="a-icons"><span class="a-ic"><svg><use href="#bell"/></svg></span><span class="a-ic av">A</span></span>
+              </div>
+              <div class="a-eye">Buenas tardes · sábado, 31 oct</div>
+              <div class="a-h">Es hora de<br><span class="lima">entrenar.</span></div>
+              <div class="a-card glass">
+                <span class="a-chip">PLAN DE HOY</span>
+                <span class="a-t">Tren superior</span>
+                <span class="a-sub">Pecho · Espalda · Hombros</span>
+                <span class="a-meta"><span><b>6</b> ejercicios</span><span><b>55</b> min</span></span>
+                <span class="a-btn">Empezar entrenamiento →</span>
+              </div>
+              <div class="a-card glass a-week">
+                <div class="ring"><svg viewBox="0 0 100 100"><circle class="t" cx="50" cy="50" r="42"/><circle class="p" data-ring="0.8" cx="50" cy="50" r="42"/></svg><span class="num">4/5</span></div>
+                <div><span class="a-t" style="font-size:5.4cqw">Esta semana</span><br><span class="a-sub" style="font-size:3.4cqw">Te queda 1 sesión para tu objetivo.</span></div>
+                <div class="days">
+                  <span><i></i>L</span><span class="on"><i><svg><use href="#chk"/></svg></i>M</span><span class="on"><i><svg><use href="#chk"/></svg></i>X</span><span><i></i>J</span><span class="on"><i><svg><use href="#chk"/></svg></i>V</span><span class="on"><i><svg><use href="#chk"/></svg></i>S</span><span><i></i>D</span>
+                </div>
+              </div>
+              <div class="a-nav glass">
+                <span class="on"><svg><use href="#home"/></svg>Inicio</span><span><svg><use href="#db"/></svg>Entrenos</span><span><svg><use href="#chart"/></svg>Progreso</span><span><svg><use href="#gear"/></svg>Ajustes</span>
+              </div>
+              <div class="glare"></div>
+            </div>
+          </div>
+        </div>
+        <div class="chip3d glass c1" aria-hidden="true"><span class="ico"><svg><use href="#trophy"/></svg></span><span data-i18n="chip1">+5 kg<small>NUEVO RÉCORD</small></span></div>
+        <div class="chip3d glass c2" aria-hidden="true"><span class="ico"><svg><use href="#wifi"/></svg></span><span data-i18n="chip2">Sin conexión<small>GUARDADO</small></span></div>
+        <div class="chip3d glass c3" aria-hidden="true"><span class="ico"><svg><use href="#chk"/></svg></span><span data-i18n="chip3">4/5<small>ESTA SEMANA</small></span></div>
+        <div class="floor" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRANJA -->
+  <div class="marq" aria-hidden="true">
+    <div class="mrow a" id="m1"></div>
+    <div class="mrow b" id="m2"></div>
+  </div>
+
+  <!-- QUÉ HACE -->
+  <section id="app">
+    <div class="wrap">
+      <div class="sec-head">
+        <p data-i18n="feat.eye" class="eyebrow">Hecha para usarla en el gimnasio</p>
+        <h2 data-i18n="feat.h" data-fx="rise" data-io>Menos tiempo con el móvil. <span class="lima">Más entreno.</span></h2>
+        <p data-i18n="feat.p" data-fx="fade" data-io style="--d:200ms">Todo lo que necesitas entre serie y serie, sin pantallas de más.</p>
+      </div>
+      <div class="feats">
+        <article class="feat glass" data-fx="flip" data-io><div class="feat-in"><span data-i18n="badge.free" class="badge">GRATIS</span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span>
+          <h3 data-i18n="f1h">Registro en segundos</h3>
+          <p data-i18n="f1p">Peso, repeticiones y listo. Controles grandes para usarla con las manos cansadas.</p>
+        </div></article>
+        <article class="feat glass" data-fx="flip" data-io style="--d:90ms"><div class="feat-in"><span data-i18n="badge.free" class="badge">GRATIS</span>
+          <span class="ic"><svg aria-hidden="true"><use href="#wifi"/></svg></span>
+          <h3 data-i18n="f2h">Funciona sin cobertura</h3>
+          <p data-i18n="f2p">Guarda cada serie al momento, aunque el gimnasio sea un sótano sin señal.</p>
+        </div></article>
+        <article class="feat glass" data-fx="flip" data-io style="--d:180ms"><div class="feat-in"><span data-i18n="badge.free" class="badge">GRATIS</span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></span>
+          <h3 data-i18n="f3h">Descansos con aviso</h3>
+          <p data-i18n="f3p">El temporizador arranca solo y te avisa cuando toca la siguiente serie.</p>
+        </div></article>
+        <article class="feat glass" data-fx="flip" data-io><div class="feat-in"><span data-i18n="badge.free" class="badge">GRATIS</span>
+          <span class="ic"><svg aria-hidden="true"><use href="#trophy"/></svg></span>
+          <h3 data-i18n="f4h">Tus récords, a la vista</h3>
+          <p data-i18n="f4p">Ves tu mejor marca de cada ejercicio y te enteras cuando la superas.</p>
+        </div></article>
+        <article class="feat glass" data-fx="flip" data-io style="--d:90ms"><div class="feat-in"><span data-i18n="badge.free" class="badge">GRATIS</span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3l4 4-4 4M3 7h18M7 21l-4-4 4-4M21 17H3"/></svg></span>
+          <h3 data-i18n="f5h">Alternativas al momento</h3>
+          <p data-i18n="f5p">¿Máquina ocupada? Cambia a un ejercicio parecido sin perder el hilo.</p>
+        </div></article>
+        <article class="feat glass" data-fx="flip" data-io style="--d:180ms"><div class="feat-in"><span data-i18n="badge.free" class="badge">GRATIS</span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M5 16l4-5 4 3 6-8"/></svg></span>
+          <h3 data-i18n="f6h">Progreso claro</h3>
+          <p data-i18n="f6p">Historial, volumen y constancia por semana y por mes, sin hojas de cálculo.</p>
+        </div></article>
+        <article class="feat glass soon" data-fx="flip" data-io style="--d:90ms"><div class="feat-in"><span data-i18n="badge.soon" class="badge soon">PRÓXIMAMENTE</span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+          <h3 data-i18n="f7h">Rutinas y plantillas</h3>
+          <p data-i18n="f7p">Guarda tus entrenos favoritos y empiézalos con un toque.</p>
+        </div></article>
+        <article class="feat glass soon" data-fx="flip" data-io style="--d:180ms"><div class="feat-in"><span data-i18n="badge.soon" class="badge soon">PRÓXIMAMENTE</span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4M8 14l2.5 2.5L16 12"/></svg></span>
+          <h3 data-i18n="f8h">Tu mes en VYRTU</h3>
+          <p data-i18n="f8p">Un resumen de tu mes de entreno listo para compartir en redes.</p>
+        </div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORIA FIJA EN 3D -->
+  <section class="story3d" id="story" aria-label="Cómo funciona VYRTU OS">
+    <div class="pin wrap">
+      <div class="steps-txt">
+        <div class="step on" data-step="0">
+          <span data-i18n="s1k" class="k">01 / 03 · EN EL GIMNASIO</span>
+          <h3 data-i18n="s1h" data-fx="rise">Registra<span class="lima">.</span></h3>
+          <p data-i18n="s1p">Cada serie en segundos, con el tiempo, las series hechas y el volumen en directo.</p>
+        </div>
+        <div class="step" data-step="1">
+          <span data-i18n="s2k" class="k">02 / 03 · AL TERMINAR</span>
+          <h3 data-i18n="s2h" data-fx="rise">Entiende<span class="lima">.</span></h3>
+          <p data-i18n="s2p">Constancia, volumen y qué músculos trabajas más, de un vistazo.</p>
+        </div>
+        <div class="step" data-step="2">
+          <span data-i18n="s3k" class="k">03 / 03 · CADA SEMANA</span>
+          <h3 data-i18n="s3h" data-fx="rise">Progresa<span class="lima">.</span></h3>
+          <p data-i18n="s3p">Todo tu historial guardado para ver de dónde vienes y batir tus marcas.</p>
+        </div>
+        <div class="dots" style="position:absolute;bottom:0;left:0" aria-hidden="true"><i><b></b></i><i><b></b></i><i><b></b></i></div>
+      </div>
+      <div class="stage3d">
+        <span class="bignum" id="bignum" aria-hidden="true">01</span>
+        <div class="rig" id="storyRig">
+          <div class="dev" data-back role="img" aria-label="Pantallas de VYRTU OS: entreno en vivo, progreso e historial">
+            <div class="face front">
+              <div class="screens" aria-hidden="true">
+                <!-- Entreno en vivo -->
+                <div class="scr on" style="padding-bottom:6cqw">
+                  <div class="island"></div>
+                  <div class="sb"><span>9:41</span><i></i></div>
+                  <div class="a-head"><span class="a-logo">VYRTU <span class="lima">OS</span></span><span class="live">EN VIVO</span></div>
+                  <div class="a-h" style="font-size:9.6cqw">Tren superior</div>
+                  <div class="a-eye" style="letter-spacing:.1em">32 min · 3 ejercicios</div>
+                  <div class="a-card glass w-stats">
+                    <div class="ring w-ring"><svg viewBox="0 0 100 100"><circle class="t" cx="50" cy="50" r="42"/><circle class="p" data-ring="0.55" cx="50" cy="50" r="42"/></svg><span class="num"><span id="liveClock">32:14</span><small>TIEMPO</small></span></div>
+                    <div class="kv"><span><b class="num">9</b><small>SERIES HECHAS</small></span><span><b class="num">4.820 kg</b><small>VOLUMEN TOTAL</small></span></div>
+                  </div>
+                  <div class="a-card glass">
+                    <div class="ex"><span class="ex-ic"><svg><use href="#db"/></svg></span><div><div class="ex-n">Press banca</div><div class="a-sub" style="font-size:3.2cqw">pecho · tríceps · hombro</div></div></div>
+                    <div class="sets">
+                      <div class="srow h"><span>SET</span><span>REPS</span><span>KG</span><span>✓</span></div>
+                      <div class="srow d"><span class="lima">1</span><span class="v">8</span><span class="v">80</span><span class="c"><svg><use href="#chk"/></svg></span></div>
+                      <div class="srow d"><span class="lima">2</span><span class="v">8</span><span class="v">80</span><span class="c"><svg><use href="#chk"/></svg></span></div>
+                      <div class="srow act"><span>3</span><span class="v">6</span><span class="v">85</span><span class="c"></span></div>
+                    </div>
+                  </div>
+                  <div class="glare"></div>
+                </div>
+                <!-- Progreso -->
+                <div class="scr">
+                  <div class="island"></div>
+                  <div class="sb"><span>9:41</span><i></i></div>
+                  <div><div class="a-logo" style="font-size:8.6cqw">Progreso</div><div class="a-sub" style="font-size:3.6cqw">Tu esfuerzo, en datos.</div></div>
+                  <div class="tabs"><span class="on">Resumen</span><span>Semanal</span><span>Mensual</span></div>
+                  <div class="a-card glass w-stats">
+                    <div class="ring" style="width:24cqw;height:24cqw"><svg viewBox="0 0 100 100"><circle class="t" cx="50" cy="50" r="42"/><circle class="p" data-ring="0.8" cx="50" cy="50" r="42"/></svg><span class="num" style="font-size:5.2cqw">80 %</span></div>
+                    <div><span class="a-t" style="font-size:5cqw">Casi lo tienes</span><br><span class="a-sub" style="font-size:3.3cqw">4 de 5 sesiones esta semana.</span></div>
+                  </div>
+                  <div class="grid2">
+                    <div class="mini glass"><small>Entrenos</small><b class="num">18</b><em>este mes</em></div>
+                    <div class="mini glass"><small>Volumen</small><b class="num">86.420 kg</b><em>+6 % vs. mes ant.</em></div>
+                    <div class="mini glass"><small>Tiempo activo</small><b class="num">15 h 40</b><em>este mes</em></div>
+                    <div class="mini glass"><small>Racha</small><b class="num">5 días</b><em>sigue así</em></div>
+                  </div>
+                  <div class="a-card glass areas">
+                    <span class="a-eye" style="letter-spacing:.14em">Áreas de enfoque</span>
+                    <div class="area"><span>Pecho</span><span class="bar-t"><i style="width:32%"></i></span><span>32 %</span></div>
+                    <div class="area"><span>Espalda</span><span class="bar-t"><i style="width:28%"></i></span><span>28 %</span></div>
+                    <div class="area"><span>Piernas</span><span class="bar-t"><i style="width:26%"></i></span><span>26 %</span></div>
+                  </div>
+                  <div class="a-nav glass">
+                    <span><svg><use href="#home"/></svg>Inicio</span><span><svg><use href="#db"/></svg>Entrenos</span><span class="on"><svg><use href="#chart"/></svg>Progreso</span><span><svg><use href="#gear"/></svg>Ajustes</span>
+                  </div>
+                  <div class="glare"></div>
+                </div>
+                <!-- Historial -->
+                <div class="scr">
+                  <div class="island"></div>
+                  <div class="sb"><span>9:41</span><i></i></div>
+                  <span class="a-logo">Vyrtu <span class="lima">OS</span></span>
+                  <div class="a-h" style="font-size:9cqw">Tus rutinas<br><span class="lima">anteriores</span></div>
+                  <span class="a-btn" style="border-radius:5cqw;justify-content:space-between;padding:0 4cqw">＋ Nuevo entreno <span>›</span></span>
+                  <div class="a-eye" style="letter-spacing:.14em">Últimos entrenos</div>
+                  <div class="a-card glass" style="gap:1.4cqw"><span class="a-t" style="font-size:5cqw">Tren inferior</span><span class="a-sub" style="font-size:3.3cqw">30/10/2026 · 58 min</span><span class="a-meta"><span><b>7</b> ejercicios</span><span><b>12.480</b> kg</span></span></div>
+                  <div class="a-card glass" style="gap:1.4cqw"><span class="a-t" style="font-size:5cqw">Tren superior</span><span class="a-sub" style="font-size:3.3cqw">28/10/2026 · 52 min</span><span class="a-meta"><span><b>6</b> ejercicios</span><span><b>9.860</b> kg</span></span></div>
+                  <div class="a-card glass" style="gap:1.4cqw"><span class="a-t" style="font-size:5cqw">Full body</span><span class="a-sub" style="font-size:3.3cqw">26/10/2026 · 47 min</span><span class="a-meta"><span><b>5</b> ejercicios</span><span><b>8.120</b> kg</span></span></div>
+                  <div class="a-nav glass">
+                    <span><svg><use href="#home"/></svg>Inicio</span><span class="on"><svg><use href="#db"/></svg>Entrenos</span><span><svg><use href="#chart"/></svg>Progreso</span><span><svg><use href="#gear"/></svg>Ajustes</span>
+                  </div>
+                  <div class="glare"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="floor" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOJA DE RUTA -->
+  <section id="roadmap">
+    <div class="wrap">
+      <div class="sec-head">
+        <p data-i18n="road.eye" class="eyebrow">Hoja de ruta pública</p>
+        <h2 data-i18n="road.h" data-fx="rise" data-io>Lo que viene, <span class="lima">a la vista.</span></h2>
+        <p data-i18n="road.p" data-fx="fade" data-io style="--d:200ms">Sin promesas en el aire: esto es lo que hay, lo que llega y lo que está en el plan.</p>
+      </div>
+      <ol class="road" id="road">
+        <li class="road-line" aria-hidden="true"><b id="roadFill"></b></li>
+        <li class="hito now">
+          <span class="hdot" aria-hidden="true"></span>
+          <div class="hcard glass" data-fx="flip" data-io>
+            <span data-i18n="r1w" class="hwhen">Ahora · En desarrollo</span>
+            <h3 data-i18n="r1h">La base de la app</h3>
+            <p data-i18n="r1p">Registro de series, funciona sin conexión, descansos, récords, historial y progreso.</p>
+          </div>
+        </li>
+        <li class="hito next">
+          <span class="hdot" aria-hidden="true"></span>
+          <div class="hcard glass" data-fx="flip" data-io>
+            <span data-i18n="r2w" class="hwhen">Verano 2027 · Beta cerrada</span>
+            <h3 data-i18n="r2h">Los primeros vyrtuosos</h3>
+            <p data-i18n="r2p">Android y iPhone. La reciben primero los que estén en la lista de espera.</p>
+          </div>
+        </li>
+        <li class="hito next">
+          <span class="hdot" aria-hidden="true"></span>
+          <div class="hcard glass" data-fx="flip" data-io>
+            <span data-i18n="r3w" class="hwhen">Después de la beta · Lanzamiento</span>
+            <h3 data-i18n="r3h">En Google Play y App Store</h3>
+            <p data-i18n="r3p">Abierta para todo el mundo, con lo que hayamos mejorado gracias a la beta.</p>
+          </div>
+        </li>
+        <li class="hito plan">
+          <span class="hdot" aria-hidden="true"></span>
+          <div class="hcard glass" data-fx="flip" data-io>
+            <span data-i18n="r4w" class="hwhen">En el plan · Sin fecha</span>
+            <h3 data-i18n="r4h">Lo siguiente</h3>
+            <p data-i18n="r4p">Rutinas y plantillas, kg o lb, "Tu mes en VYRTU" y exportar tus datos.</p>
+          </div>
+        </li>
+      </ol>
+      <a class="btn-ghost road-more" href="progreso.html" data-fx="fade" data-io><span data-i18n="road.more">Ver todo el progreso</span> →</a>
+    </div>
+  </section>
+
+  <!-- COMPROMISOS -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p data-i18n="pr.eye" class="eyebrow">Lo que te prometemos</p>
+        <h2 data-io data-sweep><span data-i18n="pr.h1" class="sweep" data-fx="rise">Sin trampas.</span> <span data-i18n="pr.h2" class="lima sweep" data-fx="rise" style="--d:250ms">Sin humo.</span></h2>
+      </div>
+      <div class="promises glass" data-fx="flip" data-io>
+        <div class="promise"><b><span data-count="0">0</span> €</b><h3 data-i18n="p1h">Lo esencial, gratis</h3><p data-i18n="p1p">Registrar entrenos y ver tu progreso no cuesta nada. Habrá funciones extra opcionales más adelante.</p></div>
+        <div class="promise"><b data-count="0">0</b><h3 data-i18n="p2h">Anuncios que molesten</h3><p data-i18n="p2p">Nada de vídeos entre series ni banners encima de tus datos.</p></div>
+        <div class="promise"><b><span data-count="100">100</span> %</b><h3 data-i18n="p3h">Tus datos son tuyos</h3><p data-i18n="p3p">Podrás exportarlos y borrar tu cuenta cuando quieras, sin pagar nada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section>
+    <div class="wrap">
+      <div class="story glass" data-fx="flip" data-io>
+        <div class="vbig"><svg style="width:56px;height:70px" aria-hidden="true"><use href="#v"/></svg></div>
+        <div>
+          <h3 data-i18n="story.h">La está creando alguien que entrena como tú</h3>
+          <p data-i18n="story.p">VYRTU OS nace de apuntar series en notas del móvil y no ver nunca el progreso. La beta sirve para construirla con la gente que la usa: lo que pidáis es lo que se mejora primero.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APUNTARSE -->
+  <section id="apuntarse">
+    <div class="wrap">
+      <div class="join glass">
+        <div class="join-copy">
+          <p data-i18n="join.eye" class="eyebrow">Plazas limitadas en la beta</p>
+          <h2 data-i18n="join.h" data-fx="rise" data-io>Únete a los <span class="lima">vyrtuosos</span> antes que nadie.</h2>
+          <p data-i18n="join.p">Déjanos tu nombre y tu email. Cuando abra la beta cerrada te mandamos la invitación para instalarla.</p>
+          <a data-i18n="cta" class="btn" id="joinBtn" href="https://tally.so/r/DqBe55" target="_blank" rel="noopener">Apuntarme a la beta</a>
+          <p data-i18n="legal" class="legal">Solo usaremos tus datos para avisarte de la beta y del lanzamiento. Puedes pedir que los borremos cuando quieras escribiendo a elhoraslam@gmail.com.</p>
+          <div class="social" data-social hidden><span data-i18n="follow" class="small">Síguenos:</span></div>
+        </div>
+        <ol class="steps">
+          <li data-fx="fade" data-io><div><b data-i18n="st1b">Te apuntas</b><span data-i18n="st1s">Nombre, email y cuántos días entrenas.</span></div></li>
+          <li data-fx="fade" data-io style="--d:120ms"><div><b data-i18n="st2b">Te invitamos a la beta</b><span data-i18n="st2s">Recibes el enlace para instalar la app en tu móvil.</span></div></li>
+          <li data-fx="fade" data-io style="--d:240ms"><div><b data-i18n="st3b">Nos cuentas qué mejorar</b><span data-i18n="st3s">Tu feedback decide qué se arregla primero.</span></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head"><p data-i18n="faq.eye" class="eyebrow">Preguntas frecuentes</p><h2 data-i18n="faq.h" data-fx="rise" data-io>Lo que nos <span class="lima">preguntáis.</span></h2></div>
+      <div class="faq">
+        <details class="glass"><summary data-i18n="q1">¿Cuánto cuesta?</summary><p data-i18n="a1">Lo esencial es gratis: registrar tus entrenos, tu historial y tu progreso. Más adelante habrá funciones avanzadas opcionales, y siempre podrás seguir usando la versión gratis.</p></details>
+        <details class="glass"><summary data-i18n="q2">¿Está para Android y iPhone?</summary><p data-i18n="a2">Sí. VYRTU OS estará disponible para Android y para iPhone.</p></details>
+        <details class="glass"><summary data-i18n="q3">¿Cuándo sale?</summary><p data-i18n="a3">La beta cerrada abre en verano de 2027. Los apuntados la reciben primero.</p></details>
+        <details class="glass"><summary data-i18n="q4">¿Necesito internet en el gimnasio?</summary><p data-i18n="a4">No. Puedes registrar el entreno sin conexión y se sincroniza cuando vuelvas a tener señal.</p></details>
+        <details class="glass"><summary data-i18n="q5">¿Qué hacéis con mis datos?</summary><p data-i18n="a5">Los usamos solo para que la app funcione. No los vendemos. Podrás exportarlos y borrar tu cuenta desde la app.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span data-i18n="foot">© 2026 VYRTU · Hecho por y para vyrtuosos</span>
+    <div class="social" data-social hidden></div>
+    <a data-i18n="top" href="#inicio" style="text-decoration:none">Volver arriba ↑</a>
+  </div>
+</footer>
+</div>
+</body>
+</html>
