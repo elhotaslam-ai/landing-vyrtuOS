@@ -1,0 +1,8 @@
+# Secretos y configuración local: nunca al repositorio
+.env
+.env.local
+
+# Sistema
+.DS_Store
+Thumbs.db
+node_modules/
