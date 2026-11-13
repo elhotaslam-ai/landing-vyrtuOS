@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VYRTU OS · Hoja de ruta</title>
+<meta name="description" content="Así va el desarrollo de VYRTU OS: qué está hecho, en qué estamos y qué viene.">
+<meta name="theme-color" content="#000000">
+<meta property="og:title" content="VYRTU OS · Hoja de ruta">
+<meta property="og:description" content="Así va el desarrollo de VYRTU OS: qué está hecho, en qué estamos y qué viene.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000'/%3E%3Cpolygon fill='%23D2FF00' points='14,12 24,12 32,38 40,12 50,12 37,52 27,52'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap">
+<script>try{if(sessionStorage.getItem('vyrtu-wipe')){document.documentElement.classList.add('arrive');sessionStorage.removeItem('vyrtu-wipe')}}catch(e){}</script>
+<link rel="stylesheet" href="styles.css">
+<link rel="prefetch" href="index.html">
+<script src="i18n.js" defer></script>
+<script src="progreso.js" defer></script>
+</head>
+<body class="pg">
+<div class="orbs" aria-hidden="true"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="spot" id="spot" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="v" viewBox="330 287 365 450"><polygon fill="#D2FF00" points="330,287 417,287 512,585 607,287 695,287 546,737 478,737"/></symbol>
+    <symbol id="ig" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<div class="page" id="top">
+<header class="top">
+  <div class="wrap">
+    <div class="bar glass">
+      <a class="brand" href="index.html" aria-label="VYRTU OS, inicio">
+        <span class="vmark"><svg aria-hidden="true"><use href="#v"/></svg></span>
+        <span>VYRTU <span class="lima">OS</span></span>
+      </a>
+      <nav class="nav-r" aria-label="Secciones">
+        <div class="lang" id="lang">
+          <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma / Language">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            <span id="langCur">ES</span>
+          </button>
+          <ul class="lang-menu glass" id="langMenu" hidden>
+            <li><button data-lang="es">Español</button></li>
+            <li><button data-lang="en">English</button></li>
+            <li><button data-lang="pt">Português</button></li>
+            <li><button data-lang="it">Italiano</button></li>
+          </ul>
+        </div>
+        <a data-i18n="nav.app" class="navlink" href="index.html#app">La app</a>
+        <a class="navico" data-ig href="https://www.instagram.com/vyrtu_os/" target="_blank" rel="noopener" aria-label="Instagram de VYRTU"><svg aria-hidden="true"><use href="#ig"/></svg></a>
+        <a data-i18n="nav.road" class="navlink current" href="progreso.html" aria-current="page">Hoja de ruta</a>
+        <a data-i18n="nav.join" class="btn sm" href="index.html#apuntarse">Apuntarme</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- CABECERA DE LA PÁGINA -->
+  <section class="wrap pg-hero">
+    <div class="pg-copy">
+      <a class="back" href="index.html" data-i18n="pg.back" data-fx="fade">← Volver al inicio</a>
+      <p class="eyebrow" data-i18n="pg.eye" data-fx="fade" style="--d:100ms">Hoja de ruta · Actualizada en noviembre de 2026</p>
+      <h1><span data-fx="rise" data-i18n="pg.h1a" style="--d:150ms">Así va</span><br><span class="lima" data-fx="rise" data-i18n="pg.h1b" style="--d:400ms">VYRTU OS.</span></h1>
+      <p class="lead" data-fx="fade" data-i18n="pg.lead" style="--d:700ms">Estamos construyendo la app a la vista de todos. Aquí ves qué está hecho, en qué estamos ahora y qué viene después, sin adornos.</p>
+    </div>
+    <div class="sum glass" data-fx="flip" style="--d:600ms">
+      <div class="sum-ring" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><circle class="t" cx="60" cy="60" r="50"/><circle class="p" id="sumRing" cx="60" cy="60" r="50"/></svg>
+        <span><b id="sumPct">0</b>%</span>
+      </div>
+      <div class="sum-list">
+        <div class="sum-row done"><i></i><b data-sum="done">0</b><span data-i18n="sum.done">hechas</span></div>
+        <div class="sum-row doing"><i></i><b data-sum="doing">0</b><span data-i18n="sum.doing">en marcha</span></div>
+        <div class="sum-row todo"><i></i><b data-sum="todo">0</b><span data-i18n="sum.todo">pendientes</span></div>
+      </div>
+      <p class="sum-note" data-i18n="sum.note">Cuenta de las tareas de esta página. La actualizamos a medida que avanzamos.</p>
+    </div>
+  </section>
+
+  <!-- FASES -->
+  <section class="wrap">
+    <ol class="road phases" id="road">
+      <li class="road-line" aria-hidden="true"><b id="roadFill"></b></li>
+
+      <li class="hito now">
+        <span class="hdot" aria-hidden="true"></span>
+        <div class="hcard glass" data-fx="flip" data-io>
+          <div class="ph-top"><span class="hwhen" data-i18n="ph1.w">Fase 1 · Ahora</span><span class="pstate doing" data-i18n="st.doing">En marcha</span></div>
+          <h3 data-i18n="ph1.h">La base de la app</h3>
+          <p data-i18n="ph1.p">Lo que necesitas para entrenar con la app de principio a fin.</p>
+          <ul class="checks">
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i1">Registrar series, repeticiones y peso</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i2">Guardado automático y modo sin conexión</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i3">Temporizador de descanso con aviso</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i4">Récords de cada ejercicio</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i5">Ejercicios alternativos</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i6">Anotar molestias durante el entreno</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i7">Historial y pantalla de progreso</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i8">Cuenta e inicio de sesión</span><em data-i18n="st.done">Hecho</em></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="hito now">
+        <span class="hdot" aria-hidden="true"></span>
+        <div class="hcard glass" data-fx="flip" data-io>
+          <div class="ph-top"><span class="hwhen" data-i18n="ph2.w">Fase 2 · En marcha</span><span class="pstate doing" data-i18n="st.doing">En marcha</span></div>
+          <h3 data-i18n="ph2.h">Preparar la beta</h3>
+          <p data-i18n="ph2.p">Pulir lo que hay y dejarlo listo para que lo uséis de verdad.</p>
+          <ul class="checks">
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i9">Rutinas y plantillas</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i10">Elegir entre kg y lb</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it done"><i aria-hidden="true"></i><span data-i18n="i11">Recuperar el entreno si se cierra la app</span><em data-i18n="st.done">Hecho</em></li>
+            <li class="it todo"><i aria-hidden="true"></i><span data-i18n="i12">Terminar las pantallas que aún no funcionan del todo</span><em data-i18n="st.todo">Pendiente</em></li>
+            <li class="it todo"><i aria-hidden="true"></i><span data-i18n="i13">Privacidad, términos y borrar tu cuenta desde la app</span><em data-i18n="st.todo">Pendiente</em></li>
+            <li class="it todo"><i aria-hidden="true"></i><span data-i18n="i14">Pruebas y seguridad de tus datos</span><em data-i18n="st.todo">Pendiente</em></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="hito next">
+        <span class="hdot" aria-hidden="true"></span>
+        <div class="hcard glass" data-fx="flip" data-io>
+          <div class="ph-top"><span class="hwhen" data-i18n="ph3.w">Fase 3 · Verano 2027</span><span class="pstate todo" data-i18n="st.todo">Pendiente</span></div>
+          <h3 data-i18n="ph3.h">Beta cerrada</h3>
+          <p data-i18n="ph3.p">Los primeros vyrtuosos prueban la app y nos dicen qué mejorar.</p>
+          <ul class="checks">
+            <li class="it todo"><i aria-hidden="true"></i><span data-i18n="i15">Invitaciones a la lista de espera, en Android y iPhone</span><em data-i18n="st.todo">Pendiente</em></li>
+            <li class="it todo"><i aria-hidden="true"></i><span data-i18n="i16">Recoger vuestro feedback y arreglar errores</span><em data-i18n="st.todo">Pendiente</em></li>
+            <li class="it todo"><i aria-hidden="true"></i><span data-i18n="i17">Comprobar que la app os sirve para entrenar cada semana</span><em data-i18n="st.todo">Pendiente</em></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="hito next">
+        <span class="hdot" aria-hidden="true"></span>
+        <div class="hcard glass" data-fx="flip" data-io>
+          <div class="ph-top"><span class="hwhen" data-i18n="ph4.w">Fase 4 · Después de la beta</span><span class="pstate todo" data-i18n="st.todo">Pendiente</span></div>
+          <h3 data-i18n="ph4.h">Lanzamiento</h3>
+          <p data-i18n="ph4.p">La app abierta para todo el mundo.</p>
+          <ul class="checks">
+            <li class="it todo"><i aria-hidden="true"></i><span data-i18n="i18">Publicar en Google Play y App Store</span><em data-i18n="st.todo">Pendiente</em></li>
+            <li class="it todo"><i aria-hidden="true"></i><span data-i18n="i19">Exportar tus datos cuando quieras</span><em data-i18n="st.todo">Pendiente</em></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="hito plan">
+        <span class="hdot" aria-hidden="true"></span>
+        <div class="hcard glass" data-fx="flip" data-io>
+          <div class="ph-top"><span class="hwhen" data-i18n="ph5.w">Fase 5 · Sin fecha</span><span class="pstate plan" data-i18n="st.plan">En el plan</span></div>
+          <h3 data-i18n="ph5.h">Lo que viene después</h3>
+          <p data-i18n="ph5.p">Ideas que queremos hacer, solo si aportan algo de verdad.</p>
+          <ul class="checks">
+            <li class="it plan"><i aria-hidden="true"></i><span data-i18n="i20">Tu mes en VYRTU: un resumen para compartir</span><em data-i18n="st.plan">En el plan</em></li>
+            <li class="it plan"><i aria-hidden="true"></i><span data-i18n="i21">VYRTU Pro: extras opcionales (lo esencial sigue gratis)</span><em data-i18n="st.plan">En el plan</em></li>
+            <li class="it plan"><i aria-hidden="true"></i><span data-i18n="i22">Conectar con apps de salud del móvil</span><em data-i18n="st.plan">En el plan</em></li>
+            <li class="it plan"><i aria-hidden="true"></i><span data-i18n="i23">Asistente con IA, si de verdad es útil</span><em data-i18n="st.plan">En el plan</em></li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- CÓMO TRABAJAMOS -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow" data-i18n="how.eye">Cómo trabajamos</p>
+        <h2 data-fx="rise" data-io data-i18n="how.h">Tres reglas, <span class="lima">sin excepciones.</span></h2>
+      </div>
+      <div class="rules">
+        <article class="rule glass" data-fx="flip" data-io><b>01</b><h3 data-i18n="how1h">Primero que funcione bien</h3><p data-i18n="how1p">Antes de añadir nada nuevo, lo que ya existe tiene que ir fino.</p></article>
+        <article class="rule glass" data-fx="flip" data-io style="--d:100ms"><b>02</b><h3 data-i18n="how2h">Decidís vosotros</h3><p data-i18n="how2p">Lo que más pidáis en la beta es lo que se hace primero.</p></article>
+        <article class="rule glass" data-fx="flip" data-io style="--d:200ms"><b>03</b><h3 data-i18n="how3h">Sin fechas inventadas</h3><p data-i18n="how3p">Solo ponemos fecha cuando estamos seguros de cumplirla.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- LA BETA -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow" data-i18n="beta.eye">La beta cerrada</p>
+        <h2 data-fx="rise" data-io data-i18n="beta.h">¿Qué es y <span class="lima">cómo entro?</span></h2>
+      </div>
+      <div class="rules">
+        <article class="rule glass" data-fx="flip" data-io><h3 data-i18n="beta1h">Qué es</h3><p data-i18n="beta1p">Una versión de prueba de la app para un grupo pequeño, antes de abrirla a todo el mundo.</p></article>
+        <article class="rule glass" data-fx="flip" data-io style="--d:100ms"><h3 data-i18n="beta2h">Cómo entrar</h3><p data-i18n="beta2p">Apúntate a la lista de espera. Cuando abra, te llega un email con el enlace para instalarla.</p></article>
+        <article class="rule glass" data-fx="flip" data-io style="--d:200ms"><h3 data-i18n="beta3h">Qué esperar</h3><p data-i18n="beta3p">Alguna cosa fallará: para eso es la beta. Cuéntanoslo y lo arreglamos.</p></article>
+      </div>
+      <p class="pg-cta" data-fx="fade" data-io><a class="btn" href="index.html#apuntarse"><span data-i18n="cta">Apuntarme a la beta</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+    </div>
+  </section>
+
+  <!-- IDEAS -->
+  <section>
+    <div class="wrap">
+      <div class="join glass idea">
+        <div class="join-copy">
+          <h2 data-fx="rise" data-io data-i18n="idea.h">¿Tienes una idea? <span class="lima">Cuéntanosla.</span></h2>
+          <p data-i18n="idea.p">Escríbenos por Instagram o apúntate a la beta y proponla allí.</p>
+        </div>
+        <a class="btn-ghost ig-btn" data-ig href="https://www.instagram.com/vyrtu_os/" target="_blank" rel="noopener"><svg width="20" height="20" aria-hidden="true"><use href="#ig"/></svg><span data-i18n="idea.ig">Escribir por Instagram</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span data-i18n="foot">© 2026 VYRTU · Hecho por y para vyrtuosos</span>
+    <a href="#top" style="text-decoration:none" data-i18n="top">Volver arriba ↑</a>
+  </div>
+</footer>
+</div>
+</body>
+</html>
